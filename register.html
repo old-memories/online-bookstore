@@ -1,0 +1,70 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>register</title>
+		<link rel="stylesheet" type="text/css" href="http://www.jeasyui.net/Public/js/easyui/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="http://www.jeasyui.net/Public/js/easyui/themes/icon.css">
+	<link href="templatemo_style.css" rel="stylesheet" type="text/css" />
+	<style type="text/css">
+		#ff label{
+			display:block;
+			width:100px;
+		}
+	</style>
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
+	<script type="text/javascript" src="http://www.jeasyui.net/Public/js/easyui/jquery.easyui.min.js"></script>
+	<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js"></script>
+        <script type="text/javascript">
+            // ajax register
+            $(document).ready(function(){//这个就是jQueryready ，它就像C语言的main 所有操作包含在它里面
+                $("#button_register").mousedown(function(){
+                    register(); //点击ID为"button_login"的按钮后触发函数 register();
+                });
+            });
+        function register(){ //函数 register();
+            var username = $("#username").val();//取框中的用户名
+            var password = $("#password").val();//取框中的密码
+			var phone = $("#phone").val();
+			var email = $("#email").val();
+            $.ajax({ //一个Ajax过程
+                type: "post", //以post方式与后台沟通
+                url : "save_user.php", //与此php页面沟通
+                dataType:'json',//从php返回的值以 JSON方式 解释
+                data: 'username='+username+'&password='+password+'&phone='+phone+'&email='+email, //发给php的数据
+                success: function(json){//如果调用php成功
+                    //把php中的返回值（json.username）给 alert出来
+                    $('#result').html(json.msg); //把php中的返回值显示在预定义的result定位符位置
+                }
+            });
+        }
+	</script>
+</head>
+<body>
+<div id="templatemo_content_left">
+	<div class="templatemo_content_left_section">
+		<h1>Create your Account!</h1>
+		<label id="result"></label>
+		<ul>
+		<form id="ff" action="save_user.php" method="post">
+					<label for="username">Name:</label>
+						<input  class="easyui-validatebox" type="text"id="username" name="username"  placeholder="username" required="true"/>
+				<label for="password">Password:</label>
+				<input class="easyui-validatebox" type="password"id="password" name="password" placeholder="password" required="true" ></input>
+				<label for="phone">Phone:</label>
+				<input class="easyui-validatebox" type="text" id="phone" name="phone"  placeholder="phone"required="true"></input>
+				<label for="email">Email:</label>
+				<input class="easyui-validatebox" type="text" id="email" name="email" placeholder="example@email.com" required="true" validType="email"></label>
+
+		</form>
+			<div>
+				<button id="button_register">register</button>
+			</div>
+			<a href="login.html">login</a>
+		</ul>
+	</div>
+
+</div> <!-- end of content left -->
+</body>
+</html>
